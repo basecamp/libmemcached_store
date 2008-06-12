@@ -47,7 +47,7 @@ class LibmemcachedStoreTest < Test::Unit::TestCase
       :no_block => false,
       :failover => false
     }
-    
+
     store = ActiveSupport::Cache.lookup_store :libmemcached_store, 'localhost', options
     
     assert_equal 'test', store.options[:namespace]

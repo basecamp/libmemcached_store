@@ -1,1 +1,1 @@
-config.gem 'memcached', :version => '>=0.10'
+#config.gem 'memcached', :version => '>=0.10'

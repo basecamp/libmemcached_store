@@ -32,7 +32,7 @@ module ActiveSupport
         @cache = Memcached.new(@addresses, options.reverse_merge(DEFAULT_OPTIONS))
       end
 
-      def read(key, options={})
+      def read(key, options = nil)
         super
         @cache.get(key, marshal?(options))
       rescue Memcached::Error => e
@@ -42,16 +42,17 @@ module ActiveSupport
 
       # Set the key to the given value. Pass :unless_exist => true if you want to
       # skip setting a key that already exists.
-      def write(key, value, options={})
+      def write(key, value, options = nil)
         super
-        @cache.send(options[:unless_exist] ? :add : :set, key, value, expires_in(options), marshal?(options))
+        method = (options && options[:unless_exist]) ? :add : :set
+        @cache.send(method, key, value, expires_in(options), marshal?(options))
         true
       rescue Memcached::Error => e
         log_error(e)
         false
       end
 
-      def delete(key, options={})
+      def delete(key, options = nil)
         super
         @cache.delete(key, expires_in(options))
         true
@@ -60,7 +61,7 @@ module ActiveSupport
         false
       end
 
-      def exist?(key, options={})
+      def exist?(key, options = nil)
         !read(key, options).nil?
       end
 
@@ -78,7 +79,7 @@ module ActiveSupport
         nil
       end
 
-      def delete_matched(matcher, options={})
+      def delete_matched(matcher, options = nil)
         super
         raise NotImplementedError
       end
@@ -93,11 +94,11 @@ module ActiveSupport
 
       private
         def expires_in(options)
-          options[:expires_in] || 0
+          (options && options[:expires_in]) || 0
         end
 
         def marshal?(options)
-          !options[:raw]
+          options && !options[:raw]
         end
 
         def log_error(exception)

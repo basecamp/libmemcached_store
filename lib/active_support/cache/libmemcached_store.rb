@@ -1,5 +1,17 @@
 require 'memcached'
 
+class Memcached
+  # The latest version of memcached (0.10) doesn't support hostname lookups,
+  # however, the underlying libmemcached library does. Unfortunately, set_servers
+  # will raise if a hostname is used, so we overwrite it here.
+  def set_servers(servers)
+    [*servers].each_with_index do |server, index|
+      host, port = server.split(":")
+      Lib.memcached_server_add(@struct, host, port.to_i)
+    end
+  end
+end
+
 module ActiveSupport
   module Cache
     class LibmemcachedStore < Store

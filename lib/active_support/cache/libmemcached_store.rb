@@ -54,7 +54,7 @@ module ActiveSupport
 
       def delete(key, options = nil)
         super
-        @cache.delete(key, expires_in(options))
+        @cache.delete(key)
         true
       rescue Memcached::Error => e
         log_error(e)

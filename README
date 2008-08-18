@@ -14,7 +14,7 @@ You'll need both the libmemcached client and the memcached gem:
 Make sure you install libmemcached first, before you try installing the gem. If
 you're using OS X, the easiest way to install libmemcached is through MacPorts:
 
-  sudo port install libmemcached @0.20
+  sudo port install libmemcached
 
 For other platforms, download and extract the libmemcached tarball and install
 manually:

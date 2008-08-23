@@ -92,12 +92,13 @@ module ActiveSupport
       end
 
       private
+
         def expires_in(options)
-          (options && options[:expires_in]) || 0
+          (options || {})[:expires_in] || 0
         end
 
         def marshal?(options)
-          options && !options[:raw]
+          !(options || {})[:raw]
         end
 
         def log_error(exception)

@@ -42,7 +42,7 @@ class LibmemcachedStoreTest < Test::Unit::TestCase
 
   def test_should_allow_configuration_of_custom_options
     options = {
-      :namespace => 'test',
+      :prefix_key => 'test',
       :distribution => :modula,
       :no_block => false,
       :failover => false
@@ -50,7 +50,7 @@ class LibmemcachedStoreTest < Test::Unit::TestCase
 
     store = ActiveSupport::Cache.lookup_store :libmemcached_store, 'localhost', options
     
-    assert_equal 'test', store.options[:namespace]
+    assert_equal 'test', store.options[:prefix_key]
     assert_equal :modula, store.options[:distribution]
     assert_equal false, store.options[:no_block]
     assert_equal false, store.options[:failover]

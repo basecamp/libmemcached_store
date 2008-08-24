@@ -34,6 +34,8 @@ module ActiveSupport
       def read(key, options = nil)
         super
         @cache.get(key, marshal?(options))
+      rescue Memcached::NotFound
+        nil
       rescue Memcached::Error => e
         log_error(e)
         nil
